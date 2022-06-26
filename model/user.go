@@ -6,10 +6,13 @@ import (
 
 // User 用户模型
 type User struct {
+	ID uint
 	gorm.Model
-	UserName string
-	Password string
-	Nickname string
-	Status   int
-	Avatar   string `gorm:"size:1000"`
+	UserName     string
+	Password     string
+	Nickname     string
+	Status       int
+	Avatar       string `gorm:"size:1000"`
+	Distributors string
+	Role         string
 }

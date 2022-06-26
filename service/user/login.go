@@ -21,7 +21,7 @@ type LoginResponse struct {
 func (login *LoginRequest) Login(c *gin.Context) serializer.Response {
 
 	var user model.User
-	model.DB.Table("users").Where("user_name", login.UserName).Find(&user)
+	model.DB.Table("users").Where("username", login.UserName).Find(&user)
 
 	if user == (model.User{}) {
 		return serializer.Err(10000)
