@@ -1,6 +1,8 @@
 package serializer
 
-import "github.com/gin-gonic/gin"
+import (
+	"lottery/msg"
+)
 
 // Response 基础序列化器
 type Response struct {
@@ -42,24 +44,22 @@ func CheckLogin() Response {
 }
 
 // Err 通用错误处理
-func Err(errCode int, msg string, err error) Response {
+func Err(errCode int) Response {
 	res := Response{
 		Code: errCode,
-		Msg:  msg,
-	}
-	// 生产环境隐藏底层报错
-	if err != nil && gin.Mode() != gin.ReleaseMode {
-		res.Error = err.Error()
+		Msg:  msg.ErrMsg[errCode],
+		Data: make([]string, 0),
 	}
 	return res
 }
 
-// DBErr 数据库操作失败
-func DBErr(msg string, err error) Response {
-	if msg == "" {
-		msg = "数据库操作失败"
+func ErrMsg(errCode int, msg string) Response {
+	res := Response{
+		Code: errCode,
+		Msg:  msg,
+		Data: make([]string, 0),
 	}
-	return Err(CodeDBError, msg, err)
+	return res
 }
 
 // ParamErr 各种参数错误
@@ -67,5 +67,5 @@ func ParamErr(msg string, err error) Response {
 	if msg == "" {
 		msg = "参数错误"
 	}
-	return Err(CodeParamErr, msg, err)
+	return ErrMsg(CodeParamErr, msg)
 }

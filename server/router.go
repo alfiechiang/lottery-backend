@@ -1,7 +1,7 @@
 package server
 
 import (
-	//"lottery/api"
+	"lottery/api/user"
 	"lottery/middleware"
 	"os"
 
@@ -18,9 +18,16 @@ func NewRouter() *gin.Engine {
 	r.Use(middleware.CurrentUser())
 
 	// 路由
-	// v1 := r.Group("/api/v1")
-	// {
-		
-	// }
+	v1 := r.Group("/api/v1")
+	{
+		v1.POST("login", user.LoginHandler)
+
+		v1.Use(middleware.JWTAuthMiddleware())
+		{
+			v1.POST("userinfo", user.UserInfo)
+
+		}
+
+	}
 	return r
 }
