@@ -8,7 +8,7 @@ import (
 type User struct {
 	ID uint
 	gorm.Model
-	UserName     string
+	UserName     string `gorm:"column:username"`
 	Password     string
 	Nickname     string
 	Status       int
